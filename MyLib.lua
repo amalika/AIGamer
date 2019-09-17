@@ -82,7 +82,7 @@ function movePage(dir, way, renge)
 			local aa = dir*renge.rex
 			y = globalY +  aa
 			print("单位滑动:"..aa)
-		else 
+		else
 			--极限滑动, 区间在200 - 300 内随机
 			local aa = dir*math.random(200,300)
 			y = globalY + aa
