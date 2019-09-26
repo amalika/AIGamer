@@ -4,7 +4,7 @@ require ("MyLib")
 require ("interfaceList")
 
 
-init("0", 1);
+
 -- ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓全局是否移动标识 ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
 -- 使用物品
@@ -27,13 +27,12 @@ if ocr ~= nil then
     sysLog("createOCR succeed: Tesseract-OCR v" .. msg)
 else
     -- ocr 创建失败，根据msg提示调整
-    sysLog("createOCR failed: " .. tostring(msg))
+    toast("createOCR failed: " .. tostring(msg))
 end
 
 -- 物品弹窗标识
 goodsTag={
     {"物品弹窗标识",{{1748, 541, 2028, 954}, "0|0|0x844c1a,-7|14|0x8a521e,-2|15|0x804717,-7|21|0xecbe5f,1|20|0xeabc5f,-6|34|0xecb95d,0|37|0xecb75c,20|31|0x844c1a,126|-270|0xb50900,138|-273|0xf3e8cb"}}
-
 }
 
 -- 物品标识列表
@@ -50,13 +49,12 @@ userGoodsList={
     --	{"西天雀灵",{{1698,508,1698+349,508+435},}},
     --	{"西天雀灵",{{1698,508,1698+349,508+435},}},
     {"不老根",{{1730,537,1730+311,537+417}, "0|0|0xeee1a9,17|13|0xc89f3f,48|28|0xb58d6a,-5|59|0xe6d7c5,-7|60|0x8d7561,-7|62|0xddcebc,-7|68|0xe9dac8,-6|72|0xe1d2c0,-2|72|0xede0cf,13|69|0xd0c1af",}},
-
 }
 -- 对话框标识列表
 dialogList={}
 -- 检查移动参数
 indexRange = {
-    {191,86,343,122},{"0xaaa6b7-0x000000","0xbeb7bd-0x000000","0xb6b0b8-0x000000"},"0123456789,"
+    {113,51,113+89,51+23},{"0xaeacb3-0x000000","0xbcb8b9-0x000000","0xc3bfbb-0x000000"},"0123456789,()"
 }
 -- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑全局是否移动标识↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
@@ -75,7 +73,6 @@ function FIsMove()
             -- 没有移动
             isMove = false
             task.execTimer(3000, FIsMove)
-            sysLog("没有移动, 三秒后继续..." )
         else
             isMove = true
             oldIndex = text;
@@ -83,7 +80,7 @@ function FIsMove()
         end
 
     else
-        sysLog(" 识别失败, 重新刷................" )
+        toast("识别失败: "..text)
         task.execTimer(1, FIsMove)
     end
     sysLog("移动状态: ".. isMove)
@@ -150,7 +147,7 @@ end
 
 
 while true do
-    FUserGood()
+    FIsMove()
     --	FDialog()
     mSleep(1000)
     --    -- 异步检查移动
