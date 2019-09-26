@@ -4,7 +4,7 @@
 
 -- 使用物品
 useGoods = false;
-
+goodName = "未知页面"
 
 -- 移动
 isMove = false;
@@ -25,16 +25,21 @@ else
     sysLog("createOCR failed: " .. tostring(msg))
 end
 
+-- 物品弹窗标识
+goodsTag={
+    {{1748, 541, 2028, 954}, "0|0|0x844c1a,-7|14|0x8a521e,-2|15|0x804717,-7|21|0xecbe5f,1|20|0xeabc5f,-6|34|0xecb95d,0|37|0xecb75c,20|31|0x844c1a,126|-270|0xb50900,138|-273|0xf3e8cb"}
+}
+
 -- 物品标识列表
-userGoodsList={}
+userGoodsList={
+
+}
 -- 对话框标识列表
 dialogList={}
 -- 检查移动参数
 indexRange = {
-    {600,3,809,3+34},{"0xffffff-0x000000"},"0123456789APM:"
+    {191,86,343,122},{"0xaaa6b7-0x000000","0xbeb7bd-0x000000","0xb6b0b8-0x000000"},"0123456789,"
 }
-
-
 -- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑全局是否移动标识↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
 -- 检查是否移动
@@ -70,11 +75,11 @@ end
 function FUserGood()
     print("2222222>FUserGood 执行<222222")
     -- 多点找色 确定是否物品弹窗
-    --local page = F获取指定当前页面(userGoodsList)
-    --if page ~= "未知页面" then
-    if true then
-        sysLog("********有弹窗*************")
+    local page = F获取指定当前页面(goodsTag)
+    if page ~= "未知页面" then
         -- 确认什么物品
+        good = F获取指定当前页面(goodsTag)
+        sysLog("********有弹窗*************:"..good)
         useGoods = true;
         task.execTimer(2000, FUserGood)
     else
