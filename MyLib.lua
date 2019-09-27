@@ -21,6 +21,22 @@ function F获取指定当前页面(tagList) --获取当前页面函数
     return res
 end
 
+function FFindPageByTable(tab)
+    local res = '未知页面'
+    for _, v in pairs(tab) do
+        local x, y = F多点找色(v['range'])
+        if x >=0 and y>=0 then
+            globalX = x;
+            globalY = y;
+            res = _  --界面名称
+            break
+        end
+    end
+    sysLog("F获取指定当前页面 ->"..res.."  坐标点: x->"..globalX.."  y-> "..globalY)
+    return res
+end
+
+
 function F多点找色(v)
     return findColor(v[1],v[2],95, 0, 0, 0)
 end

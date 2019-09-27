@@ -64,6 +64,36 @@ indexRange = {
 }
 -- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑全局是否移动标识↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
+
+-- 长安城地图标识
+camapTag={
+    {1,1,126,129},"0|0|0x7b502d,5|-7|0xd28f21,38|-7|0xe5a723,39|3|0x8f5d1b,9|19|0xf09726,27|37|0x683322,8|48|0x3c2a23,-27|69|0x45230b,-1|76|0xc6cdc5,4|89|0x8a5c36"
+}
+
+-- 收集任务页面列表
+gatherTaskTable={
+    长安页面 = {
+        n="长安页面",
+        range={{1,1,126,129},"0|0|0x7b502d,5|-7|0xd28f21,38|-7|0xe5a723,39|3|0x8f5d1b,9|19|0xf09726,27|37|0x683322,8|48|0x3c2a23,-27|69|0x45230b,-1|76|0xc6cdc5,4|89|0x8a5c36"},
+        tap={}
+    },
+    地图页面 = {
+        n="地图页面",
+        range={{280,0,1890,1080},"0|0|0x78e41e,1505|-13|0xe64327,1285|255|0xe2709a,1495|935|0x71391a,1496|-87|0x84431c,40|-85|0x763c1b",},
+        tap={}
+    },
+    活动页面 = {
+        n="活动页面",
+        range={{983,601,983+77,601+69},"0|0|0x7b502d,5|-7|0xd28f21,38|-7|0xe5a723,39|3|0x8f5d1b,9|19|0xf09726,27|37|0x683322,8|48|0x3c2a23,-27|69|0x45230b,-1|76|0xc6cdc5,4|89|0x8a5c36"},
+        tap={}
+    },
+    游戏页面 = {
+        n="活动页面",
+        range={{983,601,983+77,601+69},"0|0|0x7b502d,5|-7|0xd28f21,38|-7|0xe5a723,39|3|0x8f5d1b,9|19|0xf09726,27|37|0x683322,8|48|0x3c2a23,-27|69|0x45230b,-1|76|0xc6cdc5,4|89|0x8a5c36"},
+        tap={}
+    },
+}
+
 -- 检查是否移动
 function FIsMove()
     print("11111111>FIsMove 执行<111111")
@@ -152,7 +182,59 @@ local function showA()
 end
 
 function FGather()
+    local i = 0;
+    sysLog("**********")
+    --[[
+      1. 确认在长安城
+      2.打开活动按钮
+      3. 收集活动
+      4.退出收集, 继续下一步
+      ]]
     -- 收集任务
+    while true do
+        mSleep(math.random(100,300))
+        local var = FFindPageByTable(gatherTaskTable)
+        if var == "长安页面" then
+            -- 点击活动按钮
+            globalX,globalY = 500,35
+            F单击()
+        elseif var == "地图页面"  then
+            -- 长安城位置
+            globalX,globalY = 944,615
+            F单击()
+        elseif var == "活动页面"  then
+            -- 收集任务
+        else
+            -- 无法识别的页面  最好关闭所有页面\
+            F关闭所有页面()
+            globalX,globalY = 20,20
+            F单击()
+
+        end
+--[[        -- 确认是否是长安
+        local x,y = F多点找色(camapTag)
+        if x == -1 and y == -1 then
+            -- 不是的话, 切换地图到长安
+            globalX,globalY = 20,20
+            F单击()
+            mSleep(math.random(500,800))
+            globalX,globalY = 944,615
+            F单击()
+        else
+            local x,y = F多点找色(activityTage) -- 识别活动按钮
+            if x > -1 and y > -1 then
+                -- 找到
+                F单击()
+            else
+                if i >= 3  then
+                    toast("循环查找活动失败...")
+                    sysLog("循环查找活动失败...")
+                    return
+                end
+                i = i + 1;
+            end
+        end]]
+    end
 end
 
 -- 执行任务
@@ -180,7 +262,7 @@ function FIsLogin()
         --
         local var = F获取指定当前页面(loginList)
         if true then -- 登陆页面列表做相应操作
-
+			 return -- 说明进入游戏了  可以返回 继续执行下一步
         else
             return -- 说明进入游戏了  可以返回 继续执行下一步
         end
@@ -191,8 +273,11 @@ end
 --appInit() -- 启动app
 while true do
     mSleep(math.random(500,1000))
-    FIsLogin()
-    mSleep(math.random(500,1000))
+    --FUserGood()
+    --mSleep(math.random(500,1000))
+    --mSleep(math.random(500,1000))
+    --FIsLogin()
+    --mSleep(math.random(500,1000))
     FExecuteTask() -- 执行任务
     --mSleep(math.random(500,1000))
     --changeAccount() -- 切换账号
