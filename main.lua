@@ -192,24 +192,26 @@ function FGather()
       ]]
     -- 收集任务
     while true do
-        mSleep(math.random(100,300))
+        mSleep(math.random(300,500))
         local var = FFindPageByTable(gatherTaskTable)
         if var == "长安页面" then
             -- 点击活动按钮
             globalX,globalY = 500,35
             F单击()
+            mSleep(math.random(300,500))
         elseif var == "地图页面"  then
             -- 长安城位置
             globalX,globalY = 944,615
             F单击()
+            mSleep(math.random(300,500))
         elseif var == "活动页面"  then
             -- 收集任务
+			exit()
         else
-            -- 无法识别的页面  最好关闭所有页面\
+            -- 无法识别的页面  最好关闭所有页面
+            -- 遍历所有的吗?
             F关闭所有页面()
-            globalX,globalY = 20,20
-            F单击()
-
+            mSleep(math.random(300,500))
         end
 --[[        -- 确认是否是长安
         local x,y = F多点找色(camapTag)
