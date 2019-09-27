@@ -104,3 +104,26 @@ function movePage(dir, way, renge)
 
 end
 
+function appInit()
+
+    -- 获取屏幕分辨率
+    height, width = getScreenSize();
+    -- appId
+    appId = "com.netease.my";
+    init(appId, 1);
+    -- app 是否在运行
+    local isRun = appIsRunning(appId);
+    -- 前置appID
+    local page = frontAppName();
+
+    sysLog(isRun);
+    sysLog(page);
+
+    if (isRun == 0) or (page ~= appId) then
+        toast("当前程序不是目标程序, 准备启动....");
+        runApp(appId)
+        mSleep(1000 * 2)
+    end
+    toast("游戏运行中....");
+    mSleep(1000 * 2)
+end

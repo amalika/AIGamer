@@ -151,35 +151,36 @@ local function showA()
     task.execTimer(2000, showA)
 end
 
+-- 执行任务
 function FExecuteTask()
     sysLog("**********")
+--[[
+    1. 收集任务
+    2.开始执行
+]]
+
+
+end
+
+-- 检查是否登陆游戏
+function FIsLogin()
+    --[[
+        1. 循环获取页面
+        2. 做相应的动作
+        3.登陆页面之后就可以继续下一步 执行任务   确保是游戏内页面
+    ]]
+
 end
 
 
-function runApp()
-    -- 检查执行目标App
-    sysLog("**********")
-end
-
-
-
+--appInit() -- 启动app
 while true do
-    runApp() -- 启动app
-
-    FExecuteTask()
-
-    FIsMove()
-    --	FDialog()
-    mSleep(1000)
-    --    -- 异步检查移动
-    --    task.execTimer(2000, FIsMove)
-    --    -- 异步检查商品
-    --    task.execTimer(2000, FUserGood)
-    --    -- 异步showHUD
-    --    task.execTimer(2000, showA)
-    --    mSleep(1000)
-    --    print("-------while 循环中-------")
-    --    t = t + 1
+    mSleep(math.random(500,1000))
+    FIsLogin()
+    mSleep(math.random(500,1000))
+    FExecuteTask() -- 执行任务
+    --mSleep(math.random(500,1000))
+    --changeAccount() -- 切换账号
 end
 
 
