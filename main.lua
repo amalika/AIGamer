@@ -151,6 +151,10 @@ local function showA()
     task.execTimer(2000, showA)
 end
 
+function FGather()
+    -- 收集任务
+end
+
 -- 执行任务
 function FExecuteTask()
     sysLog("**********")
@@ -158,7 +162,10 @@ function FExecuteTask()
     1. 收集任务
     2.开始执行
 ]]
+    FGather()
+    -- 执行任务
 
+    -- 确认任务完成
 
 end
 
@@ -169,7 +176,15 @@ function FIsLogin()
         2. 做相应的动作
         3.登陆页面之后就可以继续下一步 执行任务   确保是游戏内页面
     ]]
+    while true do
+        --
+        local var = F获取指定当前页面(loginList)
+        if true then -- 登陆页面列表做相应操作
 
+        else
+            return -- 说明进入游戏了  可以返回 继续执行下一步
+        end
+    end
 end
 
 
