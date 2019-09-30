@@ -53,9 +53,9 @@ function F多点比色(array,s) --多点比色
 	end
 	return true
 end
-function F多点找色(t)  --多点找色
-	return findMultiColorInRegionFuzzy(t[1],t[2], t[3], t[4], t[5], t[6], t[7])
-end
+--function F多点找色(t)  --多点找色
+--	return findMultiColorInRegionFuzzy(t[1],t[2], t[3], t[4], t[5], t[6], t[7])
+--end
 
 function F获取当前页面() --获取当前页面函数
 	local res = '未知页面'
