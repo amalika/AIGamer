@@ -5,7 +5,7 @@ globalY = -1;
 -- 当前任务 名称?
 currentTask = "";
 -- 结构说明 表格 还是数组
-allTask = { "师门任务", "宝图", "秘境", "运镖", "绿茵如梦普通", "绿茵如梦侠士", "琉璃碎普通" };
+allTask = {};
 
 function appInit()
 
@@ -181,28 +181,6 @@ function shimenTask()
     while true do
         local page = F获取指定当前页面(shimenPaheList)
 
-    end
-
-end
-
-function executeTask()
-    -- 执行活动
-    for i, v in pairs(allTask) do
-
-        while true do
-            -- 单纯打开活动页面
-            mSleep(500, 800)
-            local x, y = F多点找色(activityPageTage)
-            if x >= 0 and y >= 0 then
-                -- 处理活动逻辑
-
-            else
-                F关闭所有页面()
-                globalX, globalY = 489, 15
-                F单击()
-                mSleep(500, 800)
-            end
-        end
     end
 
 end

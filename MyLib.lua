@@ -38,7 +38,7 @@ end
 
 
 function F多点找色(v)
-    return findColor(v[1],v[2],95, 0, 0, 0)
+    return findColor(v[1],v[2],85, 0, 0, 0)
 end
 
 
@@ -55,7 +55,10 @@ function F关闭所有页面()
     end
 end
 
-function F单击()
+function F单击(x,y)
+    if x ~= nil and y ~= nil then
+        globalX,globalY = x,y
+    end
     local hudId = createHUD()
     print("F单击 -> x :"..globalX..", y:"..globalY)
     local loaclX = math.random(globalX,globalX+10)
@@ -142,4 +145,19 @@ function appInit()
     end
     toast("游戏运行中....");
     mSleep(1000 * 2)
+end
+
+function deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[deepcopy(orig_key)] = deepcopy(orig_value)
+        end
+        setmetatable(copy, deepcopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
 end
