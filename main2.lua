@@ -25,19 +25,7 @@ sysLog(size.width .. "总长度<---" .. size.height)
 -- 全局orc 识别
 local width, height = getScreenSize()
 sysLog("width = " .. width .. ", height = " .. height)
-ocr, msg = createOCR({
-    psm = 3,
-    type = "tesseract", -- 指定tesseract引擎
-    path = "[external]", -- 使用开发助手/叉叉助手的扩展字库
-    lang = "chi_sim" -- 使用英文增强字库(注意需要提前下载好)
-})
-if ocr ~= nil then
-    -- ocr 创建成功，使用该实例进行后续识别操作（参见下面函数文档）
-    sysLog("createOCR succeed: Tesseract-OCR v" .. msg)
-else
-    -- ocr 创建失败，根据msg提示调整
-    toast("createOCR failed: " .. tostring(msg))
-end
+
 
 -- 物品弹窗标识
 goodsTag = {
@@ -61,10 +49,7 @@ userGoodsList = {
 }
 -- 对话框标识列表
 dialogList = {}
--- 检查移动参数
-indexRange = {
-    { 188, 86, 188 + 154, 86 + 36 }, { "0xafa898-0x222222" }, "0123456789,()"
-}
+
 
 -- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑全局是否移动标识↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
@@ -100,37 +85,6 @@ gatherTaskTable = {
     },
 }
 
--- 检查是否移动
-function FIsMove()
-    -- 战斗中不检查
-    if not isCombat then
-        mSleep(math.random(300, 800))
-
-        local code, text = ocr:getText({
-            rect = indexRange[1], -- 范围
-            diff = indexRange[2], -- 色差
-            whitelist = indexRange[3], -- 白名单
-        })
-        sysLog("code = " .. tostring(code) .. ", text = " .. text)
-        if code == 0 then
-            if oldIndex == text then
-                -- 没有移动
-                isMove = false
-                --task.execTimer(3000, FIsMove)
-            else
-                isMove = true
-                oldIndex = text;
-                --task.execTimer(1, FIsMove)
-            end
-        else
-            toast("识别失败: " .. text)
-            isMove = false
-            --task.execTimer(1, FIsMove)
-        end
-        sysLog("移动状态: " .. isMove)
-
-    end
-end
 
 -- 检查是否使用物品
 function FUserGood()

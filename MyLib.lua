@@ -7,18 +7,19 @@
 -- tagList 指定界面列表
 function F获取指定当前页面(tagList) --获取当前页面函数
     local res = '未知页面'
+	local x, y = -1,-1
     for _, v in pairs(tagList) do
         --		print(v)
-        local x, y = F多点找色(v[2])
+        x, y = F多点找色(v[2])
         if x >=0 and y>=0 then
-            globalX = x;
-            globalY = y;
+--            globalX = x;
+--            globalY = y;
             res = v[1]  --界面名称
             break
         end
     end
-    sysLog("F获取指定当前页面 ->"..res.."  坐标点: x->"..globalX.."  y-> "..globalY)
-    return res
+    --sysLog("F获取指定当前页面 ->"..res.."  坐标点: x->"..x.."  y-> "..y)
+    return res,x,y
 end
 
 function FFindPageByTable(tab)
@@ -42,14 +43,49 @@ function F多点找色(v)
 end
 
 
+-- 检查移动参数
+indexRange = {
+    { 188, 86, 188 + 154, 86 + 36 }, { "0xafa898-0x222222" }, "0123456789,()"
+}
+-- 检查是否移动
+function FIsMove()
+    -- 战斗中不检查
+    if not isCombat then
+--        mSleep(math.random(100,300))
+        local code, text = ocr:getText({
+            rect = indexRange[1], -- 范围
+            diff = indexRange[2], -- 色差
+            whitelist = indexRange[3], -- 白名单
+        })
+--        sysLog("code = " .. tostring(code) .. ", text = " .. text)
+        if code == 0 then
+            if oldIndex == text then
+                -- 没有移动
+                isMove = false
+                task.execTimer(3000, FIsMove)
+            else
+                isMove = true
+                oldIndex = text;
+                task.execTimer(300, FIsMove)
+            end
+        else
+            toast("识别失败: " .. text)
+            isMove = false
+            task.execTimer(300, FIsMove)
+        end
+        sysLog("移动状态: " .. isMove)
+    end
+end
+
+
 function F关闭所有页面()
     while true do
         mSleep(math.random(800,1000))
-        local var = F获取指定当前页面(closeList)
+        local var,x,y = F获取指定当前页面(closeList)
         if var == "未知页面" then
             return
         else
-            F单击()
+            F单击(x,y)
             mSleep(math.random(800,1000))
         end
     end
@@ -63,7 +99,7 @@ function F单击(x,y)
     print("F单击 -> x :"..globalX..", y:"..globalY)
     local loaclX = math.random(globalX,globalX+10)
     local loaclY = math.random(globalY,globalY+10)
-    showHUD(hudId,"",1,"0xffff0000","14.png",0,globalX,globalY,80,80)      --显示HUD内容
+    showHUD(hudId,"",5,"0xffff0000","14.png",0,globalX,globalY,80,80)      --显示HUD内容
 
     touchDown(1, loaclX, loaclY)
     mSleep(math.random(100,300))
@@ -79,7 +115,7 @@ way == 滑动方式  1 单位滑动, 2 极限滑动(滑动到最上 或者最下
 param
 ]]
 
-function movePage(dir, way, renge)
+function FMovePage(dir, way, renge)
 
     if dir == -1 then
         -- 上滑动 取右下坐标x2,y2
