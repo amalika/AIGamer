@@ -39,7 +39,12 @@ end
 
 
 function F多点找色(v)
-    return findColor(v[1],v[2],85, 0, 0, 0)
+	local number = 90
+	if v[3] ~= nil then
+		number = v[3]
+		
+	end
+    return findColor(v[1],v[2],number, 0, 0, 0)
 end
 
 
@@ -66,12 +71,12 @@ function FIsMove()
             else
                 isMove = true
                 oldIndex = text;
-                task.execTimer(300, FIsMove)
+                task.execTimer(100, FIsMove)
             end
         else
             toast("识别失败: " .. text)
             isMove = false
-            task.execTimer(300, FIsMove)
+            task.execTimer(100, FIsMove)
         end
         sysLog("移动状态: " .. isMove)
     end
@@ -107,6 +112,7 @@ function F单击(x,y)
     mSleep(math.random(100,300))
     touchUp(1, loaclX, loaclY)
     hideHUD(hudId)
+	mSleep(300)
 end
 
 --[[
