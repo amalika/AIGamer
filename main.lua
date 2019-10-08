@@ -236,7 +236,7 @@ smTageList = {
         { 2019, 905, 2019 + 139, 905 + 174 },
         "0|0|0xffca7f,6|-2|0xf8c27a,-7|10|0x575445,-4|26|0x454236,7|33|0xffea9d,-2|32|0xffeb9e,10|45|0x28302e,30|43|0xecda94,40|29|0x9e8251,34|15|0xf2c37c", 80 },
     },
-    { "师门任务弹窗", { { 328, 249, 328 + 233, 249 + 186 }, "0|0|0xda8e4e,3|0|0xfbecae,3|11|0xd27d3f,3|23|0xd88a52,3|30|0xf3d38d,3|38|0xcc733a,16|38|0xd17e44,16|25|0xfceda6,23|-33|0xfffded,26|-35|0xfcde58", 80 } },
+    { "师门任务弹窗", { { 328, 249, 328 + 233, 249 + 186 }, "0|0|0xda8e4e,3|0|0xfbecae,3|11|0xd27d3f,3|23|0xd88a52,3|30|0xf3d38d,3|38|0xcc733a,16|38|0xd17e44,16|25|0xfceda6,23|-33|0xfffded,26|-35|0xfcde58", 90 } },
     { "对话弹窗", { { 1580, 0, 2110, 780 }, "0|0|0xf7d89f,-3|67|0xd7ccbc,3|64|0xe0ccb5,385|63|0xecc282,385|69|0xecd0b2,413|65|0xd6cfc6,413|-2|0xfffbf3,410|-7|0x715f4b,407|25|0xfbf1d3", 80 } },
     { "摆摊", { { 770, 5, 770 + 570, 5 + 118 }, "0|0|0xbd7d34,0|8|0xfdef7c,173|10|0xfef180,183|10|0xc68b41,91|-9|0xb9792f,93|-13|0xfddd6d,111|-11|0xfddd6f,105|-13|0xb47029,109|1|0xb7762a,103|18|0xb36d24,103|23|0xe9d47f,88|28|0xc68837,91|28|0xecd888,91|35|0xcc903c,94|33|0xfbf8b7", 80 } },
     { "工坊摆摊", { { 770, 5, 770 + 570, 5 + 118 }, "0|0|0xa45a1c,0|4|0xe8cc6b,0|8|0xedc369,0|13|0xb6742d,0|17|0xf8e580,0|27|0xb26d27,0|38|0xbe7b35,91|40|0xb87633,91|36|0xfeefb7,95|29|0xaf6b29,93|24|0xfae59a,94|20|0xb06c28,93|16|0xf5d781,93|11|0xbe8339,93|5|0xf3cd71,93|1|0xbc8138,86|-4|0xf3d36a,86|-7|0xa25923", 80 } },
@@ -363,29 +363,30 @@ function FGetIndex()
 end
 --task.execTimer(800, FGetIndex(), "第一次") -- 一直检查当前页面
 --task.execTimer(800, FGatherTask(), "第一次") -- 收集活动
---allTask = { "师门任务"}
+allTask = { "师门任务"}
 task.execTimer(100, FIsMove(), "第一次") -- 一直检查是否战斗
 
 -- 执行收集的任务
 while true do
+	changeAccount()
     F关闭所有页面()
-    --local i = 3
-    --repeat
-    --    mSleep(900)
-    --    myShowHUD("活动收集完成," .. i .. "秒后开始执行...")
-    --    i = i - 1
-    --until (i == 0)
-    ----固定排序日常任务
-    --table.sort(allTask, mySort)
-    --for i, v in ipairs(allTask) do
-    --    mSleep(1000)
-    --    myShowHUD("执行日常中, 当前任务->" .. v)
-    --    sysLog(v)
-    --    executeTask(v)
-    --    mSleep(2000)
-    --    myShowHUD("执行日常中," .. v .. "执行完成!")
-    --end
+    local i = 3
+    repeat
+        mSleep(900)
+        myShowHUD("活动收集完成," .. i .. "秒后开始执行...")
+        i = i - 1
+    until (i == 0)
+    --固定排序日常任务
+    table.sort(allTask, mySort)
+    for i, v in ipairs(allTask) do
+        mSleep(1000)
+        myShowHUD("执行日常中, 当前任务->" .. v)
+        sysLog(v)
+        executeTask(v)
+        mSleep(2000)
+        myShowHUD("执行日常中," .. v .. "执行完成!")
+    end
     -- 切换账号
     myShowHUD("开始切换账号....")
-    changeAccount()
+    
 end
