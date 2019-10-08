@@ -78,8 +78,8 @@ function FIsMove()
             isMove = false
             task.execTimer(100, FIsMove)
         end
-        sysLog("移动状态: " .. isMove)
     end
+	 sysLog("移动状态: " .. isMove)
 end
 
 
