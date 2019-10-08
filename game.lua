@@ -44,17 +44,15 @@ function login()
     while true do
         -- 获取当前页面
         mSleep(math.random(600, 800))
-        local page = F获取指定当前页面(loginList)
+        local page,x1,y1 = F获取指定当前页面(loginList)
         if page == "登录页面有效" then
             -- 登录游戏
-            F单击()
+            F单击(x1,y1)
             local a = 0;
             while a < 50 do
-
                 local x, y = F多点找色(loginingVerify)
                 if x >= 0 and y >= 0 then
-                    globalX, globalY = x, y
-                    F单击()
+                    F单击(x, y)
                     return
                 else
                     a = a + 1
@@ -64,22 +62,16 @@ function login()
 
             end
         elseif page == "登录页面无效" then
-            F单击() -- 打开账号列表
+            F单击(x1, y1) -- 打开账号列表
         elseif page == "账号弹窗" then
             if changeAccountTage then
-                globalX = 1152;
-                globalY = 429;
-                F单击() -- 打开账号列表
+                F单击(1152,429) -- 打开账号列表
                 changeAccountTage = false
             else
-                globalX = 933;
-                globalY = 628;
-                F单击() -- 选定账号, 点击登录到登录页面
+                F单击(933,933) -- 选定账号, 点击登录到登录页面
             end
         elseif page == "账号底限" then
-            globalX = 1037;
-            globalY = 726;
-            F单击() -- 选择最后一个账号, 然后账号列表收起 到弹窗页面
+            F单击(1037,726) -- 选择最后一个账号, 然后账号列表收起 到弹窗页面
         elseif page == "账号展开" then
             mSleep(math.random(100, 250))
             print("切换账号 滑动.....")
@@ -193,37 +185,34 @@ function changeAccount()
     -- 遍历切换账号列表 然后做事情
     while true do
         mSleep(math.random(500, 800))
-        local page = F获取指定当前页面(changeAccountList)
+        local page,x1,y1 = F获取指定当前页面(changeAccountList)
         if page == "关闭状态" then
-            F单击() -- 打开工具栏
+            F单击(x1,y1) -- 打开工具栏
         elseif page == "开启状态" then
             local x, y = F多点找色(sysSettingTag)
             if x >= 0 and y >= 0 then
-                globalX, globalY = x, y;
-                F单击() -- 打开系统设置
+                F单击(x,y) -- 打开系统设置
             end
         elseif page == "基础设置" then
-            globalX = 587;
-            globalY = 898;
-            F单击() -- 点击切换账号
+            F单击(587,898) -- 点击切换账号
         elseif page == "退出弹窗" then
-            F单击() -- 点击退出
-            local a = 0
-            while a < 10 do
-                -- 这里应该死循环查找账号页面 然后return
-                local x, y = F多点找色(accountVerify)
-                if x >= 0 and y >= 0 then
-                    globalX, globalY = x, y;
-                    --切换账号结束
-                    print("切换账号结束.")
-                    mSleep(math.random(1000, 1500
-                    ))
-                    return
-                else
-                    a = a + 1;
-                    mSleep(1000)
-                end
-            end
+            F单击(x1,y1) -- 点击退出
+            --local a = 0
+            --while a < 10 do
+            --    -- 这里应该死循环查找账号页面 然后return
+            --    local x, y = F多点找色(accountVerify)
+            --    if x >= 0 and y >= 0 then
+            --        --globalX, globalY = x, y;
+            --        --切换账号结束
+            --        print("切换账号结束.")
+            --        mSleep(math.random(1000, 1500))
+            --        return
+            --    else
+            --        a = a + 1;
+            --        mSleep(1000)
+            --    end
+            --end
+        elseif page == "账号选择弹窗" then
         else
             print("changeAccount >>>> 识别出现错误.....")
         end

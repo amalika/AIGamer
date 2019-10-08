@@ -363,28 +363,29 @@ function FGetIndex()
 end
 --task.execTimer(800, FGetIndex(), "第一次") -- 一直检查当前页面
 --task.execTimer(800, FGatherTask(), "第一次") -- 收集活动
-allTask = { "师门任务", "宝图" }
+--allTask = { "师门任务"}
 task.execTimer(100, FIsMove(), "第一次") -- 一直检查是否战斗
 
 -- 执行收集的任务
 while true do
     F关闭所有页面()
-    local i = 3
-    repeat
-        mSleep(900)
-        myShowHUD("活动收集完成," .. i .. "秒后开始执行...")
-        i = i - 1
-    until (i == 0)
-    --固定排序日常任务
-    table.sort(allTask, mySort)
-    for i, v in ipairs(allTask) do
-        mSleep(1000)
-        myShowHUD("执行日常中, 当前任务->" .. v)
-        sysLog(v)
-        executeTask(v)
-        mSleep(2000)
-        myShowHUD("执行日常中," .. v .. "执行完成!")
-    end
+    --local i = 3
+    --repeat
+    --    mSleep(900)
+    --    myShowHUD("活动收集完成," .. i .. "秒后开始执行...")
+    --    i = i - 1
+    --until (i == 0)
+    ----固定排序日常任务
+    --table.sort(allTask, mySort)
+    --for i, v in ipairs(allTask) do
+    --    mSleep(1000)
+    --    myShowHUD("执行日常中, 当前任务->" .. v)
+    --    sysLog(v)
+    --    executeTask(v)
+    --    mSleep(2000)
+    --    myShowHUD("执行日常中," .. v .. "执行完成!")
+    --end
     -- 切换账号
-
+    myShowHUD("开始切换账号....")
+    changeAccount()
 end
